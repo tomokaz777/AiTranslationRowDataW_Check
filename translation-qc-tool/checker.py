@@ -10,7 +10,7 @@ class TranslationChecker:
         self.concurrency = concurrency
         self.skip_pass = skip_pass
         self.model = "claude-sonnet-4-20250514"
-        self.max_tokens = 1000
+        self.max_tokens = 500
 
     # ──────────────────────────────────────────
     # 公開API
@@ -85,7 +85,6 @@ class TranslationChecker:
                             client,
                             japanese,
                             ai_translation,
-                            str(row.get("eval_m", "")).strip(),
                             str(row.get("eval_n", "")).strip(),
                             str(row.get("eval_o", "")).strip(),
                             str(row.get("eval_p", "")).strip()[:500],
@@ -126,7 +125,6 @@ class TranslationChecker:
         client: anthropic.AsyncAnthropic,
         japanese: str,
         ai_translation: str,
-        eval_m: str,
         eval_n: str,
         eval_o: str,
         eval_p: str,
@@ -140,7 +138,7 @@ class TranslationChecker:
                 {
                     "role": "user",
                     "content": self._build_prompt_fail(
-                        japanese, ai_translation, eval_m, eval_n, eval_o, eval_p
+                        japanese, ai_translation, eval_n, eval_o, eval_p
                     ),
                 }
             ],
@@ -167,7 +165,6 @@ class TranslationChecker:
         self,
         japanese: str,
         ai_translation: str,
-        eval_m: str,
         eval_n: str,
         eval_o: str,
         eval_p: str,
@@ -176,7 +173,6 @@ class TranslationChecker:
 現在の英訳（問題あり）: "{ai_translation}"
 
 この翻訳には以下の問題が指摘されています:
-- 評価グレード: {eval_m}
 - 指摘内容: {eval_n}
 - 詳細: {eval_o}
 - 補足: {eval_p}

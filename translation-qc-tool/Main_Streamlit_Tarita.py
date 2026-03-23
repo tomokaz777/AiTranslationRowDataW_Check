@@ -69,11 +69,11 @@ with st.sidebar:
         "並行処理数",
         min_value=1,
         max_value=30,
-        value=10,
+        value=3,
         help=(
             "同時に Claude API へリクエストする数。\n"
-            "多いほど速いがレート制限（API Tier）に注意。\n"
-            "推奨: Tier1=5, Tier2=15, Tier3=25"
+            "多いほど速いがレート制限エラーが発生しやすくなります。\n"
+            "推奨: 3（安定）, 5（Tier1）, 15（Tier2以上）"
         ),
     )
 
@@ -123,7 +123,7 @@ with st.sidebar:
 
 **【仕様】Pass / Fail の処理フロー:**
 - **L列が PASS** : D列（日本語原文）と E列（AI英訳）を Claude が比較・再確認（PASSスキップONの場合は API スキップ）→ Q列に PASS/FAIL、R列は空
-- **L列が FAIL** : D列・E列に加え M〜P列（既存の指摘内容）も参照して Claude が評価・修正提案 → Q列に PASS/FAIL、R列に推奨英訳（FAILの場合のみ）
+- **L列が FAIL** : D列・E列に加え N〜P列（既存の指摘内容）も参照して Claude が評価・修正提案 → Q列に PASS/FAIL、R列に推奨英訳（FAILの場合のみ）
 - **日本語列が空白** : 処理スキップ → Q列・R列ともに空
             """
         )
